@@ -3,104 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Harvester Information</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4faf4;
-    }
-
-    .background-image {
-  background-image: url('image2.jpg');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.3; /* Controls image opacity */
-  position: absolute;
-  top: 120px;
-  left: 0;
-  height: 130%;
-  width: 100%;
-  z-index: -1;
-}
-    header {
-      background-color: #2e7d32;
-      padding: 20px;
-      color: white;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      border-bottom: 5px solid #43a047;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #43a047;
-      padding: 10px 0;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: 500;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 800px;
-      background: #ffffff;
-      margin: 40px auto;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #2e7d32;
-      margin-bottom: 20px;
-    }
-    .crop-detail {
-      margin-bottom: 10px;
-    }
-    .label {
-      font-weight: bold;
-      color: #2e7d32;
-    }
-    footer {
-      text-align: center;
-      background-color: #2e7d32;
-      color: white;
-      padding: 15px 0;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-  </style>
+  <title>Harvester Details | Farm Management System</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="background-image"></div>
-  <header style="font-size :32px; ;font-family: 'Georgia', serif;">Harvester Information</header>
+  <div class="bg-overlay"></div>
+  <header>
+    <h1>Harvester Information</h1>
+    <p>Manage and track your harvester fleets and operating staff.</p>
+  </header>
   <nav>
-    <a href="index.html">Home</a>
+    <a href="index.html">Dashboard</a>
     <a href="farmer.html">Farmer</a>
     <a href="crop.html">Crops</a>
-    <a href="farm_plot.html">Farm Plot</a>
+    <a href="harvester.html" class="active">Harvester</a>
+    <a href="farm_plot.html">Plots</a>
     <a href="livestock.html">Livestock</a>
-    <a href="tool.html">Equipment</a>
+    <a href="tool.html">Tools</a>
     <a href="maintenance.html">Maintenance</a>
+    <button class="logout-btn" onclick="logout()" style="margin-left: auto;">Logout</button>
   </nav>
 
-  <div class="container">
-    <h2>Harvester Details</h2>
+  <div class="content-container animate">
+    <h2 style="margin-bottom: 25px; border-bottom: 2px solid var(--accent); display: inline-block;">🚜 Harvester Fleet</h2>
     <div id="harvesterDetails"></div>
   </div>
 
   <footer>
-    &copy; 2025 Farm Management System. All rights reserved.
+    <p>&copy; 2026 Farm Management System. All rights reserved.</p>
   </footer>
 
   <script src="farmerData.js"></script>
   <script>
+    function logout() {
+      localStorage.removeItem("loggedInId");
+      window.location.href = "auth.html";
+    }
+
     const farmerId = localStorage.getItem("loggedInId");
     const farmerData = window.farmerDatabase[farmerId];
 
@@ -111,14 +50,26 @@
 
     const harvesterContainer = document.getElementById("harvesterDetails");
     farmerData.harvesterDetails.forEach(harvester => {
-        harvesterContainer.innerHTML += `
-        <div class="harvester-detail">
-          <p><span class="label">Harvester ID:</span> ${harvester.id}</p>
-          <p><span class="label">Harvester Name:</span> ${harvester.name}</p>
-          <p><span class="label">Phone number:</span> ${harvester.Pnum}</p>
-          <p><span class="label">Email:</span> ${harvester.email}</p>
+      harvesterContainer.innerHTML += `
+        <div class="harvester-card" style="padding: 10px 0;">
+          <div class="data-row">
+            <span class="label">Harvester ID</span>
+            <span>${harvester.id}</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Primary Name</span>
+            <span>${harvester.name}</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Phone Number</span>
+            <span>${harvester.Pnum}</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Email Address</span>
+            <span>${harvester.email}</span>
+          </div>
         </div>
-        <hr />
+        <hr style="opacity: 0.1; margin: 15px 0;">
       `;
     });
   </script>

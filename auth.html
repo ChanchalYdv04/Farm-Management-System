@@ -3,133 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Farm Login / Signup</title>
-  <style>
-    body {
-        background-image: url('image1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-
-    .container {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      width: 350px;
-    }
-    .tabs {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .tabs button {
-      flex: 1;
-      padding: 10px;
-      background-color: #2e7d32;
-      border: none;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .tabs button.active {
-      background-color: #1b5e20;
-    }
-    form {
-      display: none;
-      flex-direction: column;
-    }
-    form.active {
-      display: flex;
-    }
-    input {
-      margin: 8px 0;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button[type='submit'] {
-      background-color: #2e7d32;
-      color: white;
-      font-weight: bold;
-      border: none;
-      padding: 10px;
-      margin-top: 10px;
-      border-radius: 6px;
-    }
-  </style>
+  <title>Farm Login / Signup | Farm Management System</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="auth-page">
+  <img src="bg-login.png" class="bg-layer" alt="Farm Background">
+  <div class="bg-overlay"></div>
 
+  <div class="auth-container">
+    <div class="auth-card animate">
+      <h1 style="color: var(--primary-dark); font-size: 2.2rem; margin-bottom: 20px;">Farm Management</h1>
+      <p style="color: var(--text-muted); margin-bottom: 30px; font-weight: 500;">Welcome back, Farmer!</p>
+      
+      <div class="tabs">
+        <button onclick="switchTab('login')" id="loginTab" class="active">Login</button>
+        <button onclick="switchTab('signup')" id="signupTab">Sign Up</button>
+      </div>
 
-  <div class="container">
-    <h2 style="text-align: center;font-size: 35px;; color: #2e7d32; margin-bottom: 40px;font-family: 'Georgia', serif;">
-        Welcome to Farm Management System
-      </h2>
-    <div class="tabs">
-      <button onclick="switchTab('login')" id="loginTab" class="active">Login</button>
-      <button onclick="switchTab('signup')" id="signupTab">Signup</button>
+      <!-- Login Form -->
+      <form id="loginForm" class="active-form" onsubmit="login(event)" style="display: flex; flex-direction: column;">
+        <input type="text" id="loginId" placeholder="Farmer ID" required />
+        <input type="password" id="loginPass" placeholder="Password" required />
+        <button type="submit" class="btn" style="margin-top: 15px; width: 100%;">Access Dashboard</button>
+      </form>
+
+      <!-- Signup Form -->
+      <form id="signupForm" onsubmit="signup(event)" style="display: none; flex-direction: column;">
+        <input type="text" id="signupId" placeholder="Create Farmer ID" required />
+        <input type="password" id="signupPass" placeholder="Create Password" required />
+        <button type="submit" class="btn" style="margin-top: 15px; width: 100%;">Register Account</button>
+      </form>
     </div>
-
-    <!-- Login Form -->
-    <form id="loginForm" class="active" onsubmit="login(event)">
-      <input type="text" id="loginId" placeholder="Farmer ID" required />
-      
-      <input type="password" id="loginPass" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-
-    <!-- Signup Form -->
-    <form id="signupForm" onsubmit="signup(event)">
-      <input type="text" id="signupId" placeholder="Farmer ID" required />
-      
-      <input type="password" id="signupPass" placeholder="Password" required />
-      <button type="submit">Sign Up</button>
-    </form>
   </div>
 
   <script>
+    // Style fix for visibility
+    function updateFormDisplay() {
+      const loginForm = document.getElementById("loginForm");
+      const signupForm = document.getElementById("signupForm");
+      const loginTab = document.getElementById("loginTab");
+      const signupTab = document.getElementById("signupTab");
+
+      if (loginTab.classList.contains("active")) {
+        loginForm.style.display = "flex";
+        signupForm.style.display = "none";
+      } else {
+        loginForm.style.display = "none";
+        signupForm.style.display = "flex";
+      }
+    }
+
     function switchTab(tab) {
-      document.getElementById("loginForm").classList.remove("active");
-      document.getElementById("signupForm").classList.remove("active");
       document.getElementById("loginTab").classList.remove("active");
       document.getElementById("signupTab").classList.remove("active");
-
-      document.getElementById(tab + "Form").classList.add("active");
       document.getElementById(tab + "Tab").classList.add("active");
+      updateFormDisplay();
     }
 
     function signup(event) {
       event.preventDefault();
       const id = document.getElementById("signupId").value;
-      
       const pass = document.getElementById("signupPass").value;
-      const user = { id, name, pass };
+      
+      // Fixed: Removed undefined 'name'
+      const user = { id, pass };
       localStorage.setItem("user_" + id, JSON.stringify(user));
-      alert("Signup successful! Please login.");
+      
+      alert("Registration successful! You can now login.");
       switchTab('login');
+      document.getElementById("loginId").value = id;
     }
 
     function login(event) {
       event.preventDefault();
       const id = document.getElementById("loginId").value;
-      
       const pass = document.getElementById("loginPass").value;
-      const user = JSON.parse(localStorage.getItem("user_" + id));
-      if (user && user.name === name && user.pass === pass) {
-        localStorage.setItem("loggedInId", id);
-        window.location.href = "index.html"; // Redirect to farmer page
-      } else {
-        alert("Invalid credentials. Please try again.");
+      
+      const storedUser = localStorage.getItem("user_" + id);
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        if (user.pass === pass) {
+          localStorage.setItem("loggedInId", id);
+          window.location.href = "index.html"; 
+          return;
+        }
       }
+      
+      alert("Invalid credentials. Please check your ID and Password.");
     }
+
+    // Initial check
+    updateFormDisplay();
   </script>
 </body>
 </html>

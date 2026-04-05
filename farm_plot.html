@@ -3,104 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Farm Plot Information</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4faf4;
-    }
-
-    .background-image {
-  background-image: url('image2.jpg');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.3; /* Controls image opacity */
-  position: absolute;
-  top: 120px;
-  left: 0;
-  height: 130%;
-  width: 100%;
-  z-index: -1;
-}
-    header {
-      background-color: #2e7d32;
-      padding: 20px;
-      color: white;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      border-bottom: 5px solid #43a047;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #43a047;
-      padding: 10px 0;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: 500;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 800px;
-      background: #ffffff;
-      margin: 40px auto;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #2e7d32;
-      margin-bottom: 20px;
-    }
-    .crop-detail {
-      margin-bottom: 10px;
-    }
-    .label {
-      font-weight: bold;
-      color: #2e7d32;
-    }
-    footer {
-      text-align: center;
-      background-color: #2e7d32;
-      color: white;
-      padding: 15px 0;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-  </style>
+  <title>Farm Plot Details | Farm Management System</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="background-image"></div>
-  <header style="font-size :32px; ;font-family: 'Georgia', serif;">Farm Plot Information</header>
+  <div class="bg-overlay"></div>
+  <header>
+    <h1>Farm Plot Information</h1>
+    <p>Spatial analysis and soil tracking for every plot in your farm.</p>
+  </header>
   <nav>
-    <a href="index.html">Home</a>
+    <a href="index.html">Dashboard</a>
     <a href="farmer.html">Farmer</a>
-    <a href="crop.html">Crop</a>
+    <a href="crop.html">Crops</a>
     <a href="harvester.html">Harvester</a>
+    <a href="farm_plot.html" class="active">Plots</a>
     <a href="livestock.html">Livestock</a>
-    <a href="tool.html">Equipment</a>
+    <a href="tool.html">Tools</a>
     <a href="maintenance.html">Maintenance</a>
+    <button class="logout-btn" onclick="logout()" style="margin-left: auto;">Logout</button>
   </nav>
 
-  <div class="container">
-    <h2>Farm Plot Details</h2>
+  <div class="content-container animate">
+    <h2 style="margin-bottom: 25px; border-bottom: 2px solid var(--accent); display: inline-block;">🗺️ Plot Mapping</h2>
     <div id="plotDetails"></div>
   </div>
 
   <footer>
-    &copy; 2025 Farm Management System. All rights reserved.
+    <p>&copy; 2026 Farm Management System. All rights reserved.</p>
   </footer>
 
   <script src="farmerData.js"></script>
   <script>
+    function logout() {
+      localStorage.removeItem("loggedInId");
+      window.location.href = "auth.html";
+    }
+
     const farmerId = localStorage.getItem("loggedInId");
     const farmerData = window.farmerDatabase[farmerId];
 
@@ -111,14 +50,26 @@
 
     const plotContainer = document.getElementById("plotDetails");
     farmerData.plotDetails.forEach(plot => {
-        plotContainer.innerHTML += `
-        <div class="plot-detail">
-          <p><span class="label">plot ID:</span> ${plot.id}</p>
-          <p><span class="label">Size:</span> ${plot.size}</p>
-          <p><span class="label">Soil Type:</span> ${plot.soil}</p>
-          <p><span class="label">Location:</span> ${plot.Add}</p>
+      plotContainer.innerHTML += `
+        <div class="plot-card" style="padding: 10px 0;">
+          <div class="data-row">
+            <span class="label">Plot ID</span>
+            <span>${plot.id}</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Total Size</span>
+            <span style="font-weight: 600;">${plot.size} Acres</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Soil Composition</span>
+            <span style="color: var(--primary); font-weight: 500;">${plot.soil}</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Geolocation</span>
+            <span>${plot.Add}</span>
+          </div>
         </div>
-        <hr />
+        <hr style="opacity: 0.1; margin: 15px 0;">
       `;
     });
   </script>

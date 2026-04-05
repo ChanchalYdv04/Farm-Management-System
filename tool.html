@@ -3,104 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Farm Tools and Equipment Information</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4faf4;
-    }
-
-    .background-image {
-  background-image: url('image2.jpg');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.3; /* Controls image opacity */
-  position: absolute;
-  top: 120px;
-  left: 0;
-  height: 130%;
-  width: 100%;
-  z-index: -1;
-}
-    header {
-      background-color: #2e7d32;
-      padding: 20px;
-      color: white;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      border-bottom: 5px solid #43a047;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #43a047;
-      padding: 10px 0;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: 500;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .container {
-      max-width: 800px;
-      background: #ffffff;
-      margin: 40px auto;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #2e7d32;
-      margin-bottom: 20px;
-    }
-    .crop-detail {
-      margin-bottom: 10px;
-    }
-    .label {
-      font-weight: bold;
-      color: #2e7d32;
-    }
-    footer {
-      text-align: center;
-      background-color: #2e7d32;
-      color: white;
-      padding: 15px 0;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-  </style>
+  <title>Tools & Equipment | Farm Management System</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="background-image"></div>
-  <header style="font-size :32px; ;font-family: 'Georgia', serif;">Farm Tools and Equipment Information</header>
+  <div class="bg-overlay"></div>
+  <header>
+    <h1>Tools & Equipment</h1>
+    <p>Inventory and lifecycle management for all agricultural machinery and assets.</p>
+  </header>
   <nav>
-    <a href="index.html">Home</a>
+    <a href="index.html">Dashboard</a>
     <a href="farmer.html">Farmer</a>
     <a href="crop.html">Crops</a>
     <a href="harvester.html">Harvester</a>
-    <a href="farm_plot.html">Farm Plot</a>
+    <a href="farm_plot.html">Plots</a>
     <a href="livestock.html">Livestock</a>
+    <a href="tool.html" class="active">Tools</a>
     <a href="maintenance.html">Maintenance</a>
+    <button class="logout-btn" onclick="logout()" style="margin-left: auto;">Logout</button>
   </nav>
 
-  <div class="container">
-    <h2>Farm Tools and Equipment Information Details</h2>
+  <div class="content-container animate">
+    <h2 style="margin-bottom: 25px; border-bottom: 2px solid var(--accent); display: inline-block;">🛠️ Asset Inventory</h2>
     <div id="toolDetails"></div>
   </div>
 
   <footer>
-    &copy; 2025 Farm Management System. All rights reserved.
+    <p>&copy; 2026 Farm Management System. All rights reserved.</p>
   </footer>
 
   <script src="farmerData.js"></script>
   <script>
+    function logout() {
+      localStorage.removeItem("loggedInId");
+      window.location.href = "auth.html";
+    }
+
     const farmerId = localStorage.getItem("loggedInId");
     const farmerData = window.farmerDatabase[farmerId];
 
@@ -111,14 +50,22 @@
 
     const toolContainer = document.getElementById("toolDetails");
     farmerData.toolDetails.forEach(tool => {
-        toolContainer.innerHTML += `
-        <div class="tool-detail">
-          <p><span class="label">Equipment id:</span> ${tool.id}</p>
-          <p><span class="label">Type:</span> ${tool.type}</p>
-          <p><span class="label">Purchase Date:</span> ${tool.date}</p>
-          <p><span class="label">Farmer id:</span> ${tool.fid}</p>
+      toolContainer.innerHTML += `
+        <div class="tool-card" style="padding: 10px 0;">
+          <div class="data-row">
+            <span class="label">Asset ID</span>
+            <span>${tool.id}</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Equipment Type</span>
+            <span>${tool.type}</span>
+          </div>
+          <div class="data-row">
+            <span class="label">Purchase History</span>
+            <span>${tool.date}</span>
+          </div>
         </div>
-        <hr />
+        <hr style="opacity: 0.1; margin: 15px 0;">
       `;
     });
   </script>
