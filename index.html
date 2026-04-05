@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Farm Management System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+            background-image: url('image2.jpg');
+            background-size: cover;
+            background-position: center 115px;
+            background-repeat: no-repeat;
+            
+        }
+
+
+        .card {
+  cursor: pointer;
+  transition: transform 0.4s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+    header {
+      background-color: #2e7d32;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    nav {
+      background-color: #43a047;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 40px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card h2 {
+      color: #2e7d32;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      background-color: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+    .logout {
+      background: #c62828;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      left: 280px;
+    }
+  </style>
+</head>
+<body>
+  <header style="font-size: 45px;font-family: 'Georgia', serif;">Farm Management System</header>
+  <nav>
+    <a href="farmer.html">Farmer</a>
+    <a href="crop.html">Crops</a>
+    <a href="harvester.html">Harvester</a>
+    <a href="farm_plot.html">Farm Plot</a>
+    <a href="livestock.html">Livestock</a>
+    <a href="tool.html">Tools & Equipment</a>
+    <a href="maintenance.html">Maintenance</a>
+    <button class="logout" onclick="logout()">Logout</button>
+  </nav>
+
+  <main>
+    <a href="farmer.html" style="text-decoration: none; color: inherit;">
+    <div class="card" id="farmer">
+      <h2>Farmer Info</h2>
+      <p>Details: ID, Name, Phone Number, Address</p>
+    </div>
+    </a>
+
+    <a href="crop.html" style="text-decoration: none; color: inherit;">
+      <div class="card" id="crops">
+        <h2>Crops Info</h2>
+        <p>Details: Crop ID, Name, Yield, Planting & Harvesting Dates</p>
+      </div>
+    </a>
+
+    <a href="harvester.html" style="text-decoration: none; color: inherit;">
+    <div class="card" id="harvester">
+      <h2>Harvester Info</h2>
+      <p>Details: ID, Name, Phone Number</p>
+      <p>Email</p>
+    </div>
+  </a>
+
+  
+    <a href="farm_plot.html" style="text-decoration: none; color: inherit;">
+    <div class="card" id="plot">
+      <h2>Farm Plot Info</h2>
+      <p>Details: Plot ID, Size, Soil Type</p>
+      <p>Location</p>
+    </div>
+  </a>
+
+  
+  <a href="livestock.html" style="text-decoration: none; color: inherit;">
+    <div class="card" id="livestock">
+      <h2>Livestock Info</h2>
+      <p>Details: Animal ID, Species, Breed, Health, Feeding Schedule</p>
+    </div>
+  </a>
+
+
+    <a href="tool.html" style="text-decoration: none; color: inherit;">
+    <div class="card" id="equipment">
+      <h2>Tools & Equipment Info</h2>
+      <p>Details: Equipment ID, Type, Purchase Date</p>
+    </div>
+  </a>
+
+    <a href="maintenance.html" style="text-decoration: none; color: inherit;">
+    <div class="card" id="maintenance">
+      <h2>Maintenance Info</h2>
+      <p>Details: ID, Date, Cost, Linked Equipment & Plot IDs</p>
+    </div>
+  </a>
+  </main>
+
+  <script>
+    function logout() {
+      localStorage.removeItem("loggedInId"); // Clear the stored ID
+      window.location.href = "auth.html";    // Redirect to signup/login
+    }
+  </script>
+  
+</body>
+</html>

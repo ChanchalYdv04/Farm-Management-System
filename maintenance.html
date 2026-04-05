@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maintenance Information</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4faf4;
+    }
+
+    .background-image {
+  background-image: url('image2.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3; /* Controls image opacity */
+  position: absolute;
+  top: 120px;
+  left: 0;
+  height: 130%;
+  width: 100%;
+  z-index: -1;
+}
+    header {
+      background-color: #2e7d32;
+      padding: 20px;
+      color: white;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      border-bottom: 5px solid #43a047;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #43a047;
+      padding: 10px 0;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 800px;
+      background: #ffffff;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+    .crop-detail {
+      margin-bottom: 10px;
+    }
+    .label {
+      font-weight: bold;
+      color: #2e7d32;
+    }
+    footer {
+      text-align: center;
+      background-color: #2e7d32;
+      color: white;
+      padding: 15px 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+    <div class="background-image"></div>
+  <header style="font-size :32px; ;font-family: 'Georgia', serif;">Maintenance Information</header>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="farmer.html">Farmer</a>
+    <a href="crop.html">Crops</a>
+    <a href="harvester.html">Harvester</a>
+    <a href="farm_plot.html">Farm Plot</a>
+    <a href="livestock.html">Livestock</a> 
+    <a href="tool.html">Equipment</a>
+    
+  </nav>
+
+  <div class="container">
+    <h2>Maintenance Details</h2>
+    <div id="maintenanceDetails"></div>
+  </div>
+
+  <footer>
+    &copy; 2025 Farm Management System. All rights reserved.
+  </footer>
+
+  <script src="farmerData.js"></script>
+  <script>
+    const farmerId = localStorage.getItem("loggedInId");
+    const farmerData = window.farmerDatabase[farmerId];
+
+    if (!farmerData) {
+      alert("Please login first.");
+      window.location.href = "auth.html";
+    }
+
+    const maintenanceContainer = document.getElementById("maintenanceDetails");
+    farmerData.maintenanceDetails.forEach(maintenance => {
+        maintenanceContainer.innerHTML += `
+        <div class="maintenance-detail">
+          <p><span class="label">Maintenance id:</span> ${maintenance.id}</p>
+          <p><span class="label">Plot id:</span> ${maintenance.pid}</p>
+          <p><span class="label">Equipment id:</span> ${maintenance.eid}</p>
+          <p><span class="label">Cost:</span> ${maintenance.cost}</p>
+          <p><span class="label">Date:</span> ${maintenance.date}</p>
+        </div>
+        <hr />
+      `;
+    });
+  </script>
+</body>
+</html>
